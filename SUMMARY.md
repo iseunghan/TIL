@@ -1,4 +1,4 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [✏️ Git 이해 및 기본 사용법](README.md)
 
