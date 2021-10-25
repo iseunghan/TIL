@@ -1,22 +1,23 @@
-# ✏️ Git 이해 및 기본 사용법
+# Git
+
+## Git에 대해서 공부한 내용들을 정리합니다 😊
 
 ## Git 이란?
 
 소스코드의 `버전관리`와 다른 개발자와 `협업`하기 위해 사용하는 프로그램입니다.
 
-
-
 ## Git vs GitHub ?
 
 서로가 같다고 생각하는 경우가 많은데 GitHub는 **Git 기반**의 `저장소 서비스`를 말합니다.
 
-
-
 ## Git 시작하기
 
+* 목차
+  * [Git 이해 및 기본 사용법](git.md)
+  * [Git Commit 이해하기](git-commit.md)
+  * [Git HEAD, reset 3가지 옵션](git-head-reset-3.md)
+
 1. 먼저 `Terminal`을 실행하여 버전관리하고 싶은 프로젝트의 루트 디렉토리로 이동합니다.
-
-
 
 IntelliJ의 내장 **Terminal**을 열어줍니다.
 
@@ -56,7 +57,7 @@ $ git config user.email "user@email.com"
 
 이제 아무 클래스나 생성하고 커밋을 해보도록 하겠습니다.
 
-저장할 때는 2가지 방법이 있는데,&#x20;
+저장할 때는 2가지 방법이 있는데,
 
 1. 특정 파일을 추가하는 방법 : **$ git add {file\_name}**
 
@@ -64,13 +65,13 @@ $ git config user.email "user@email.com"
 $ git add People.java
 ```
 
-&#x20;2\. 변경된 모든 파일을 추가하는 방법 : **$ git add .**
+2\. 변경된 모든 파일을 추가하는 방법 : **$ git add .**
 
 ```
 $ git add .
 ```
 
-&#x20;보통 저장할 파일들이 많고 귀찮기 때문에 2번째 방법을 더 많이 씁니다.
+보통 저장할 파일들이 많고 귀찮기 때문에 2번째 방법을 더 많이 씁니다.
 
 ![](https://blog.kakaocdn.net/dn/bof58w/btq9JNkZurJ/MakxE55J1ZVl0PeLkyMDz0/img.png)
 

@@ -1,4 +1,6 @@
-# ✏️ Git HEAD, reset 3가지 옵션
+# Git HEAD, reset 3가지 옵션
+
+
 
 ## HEAD 란?
 
@@ -16,7 +18,7 @@
 
 한번 첫번째 커밋으로 이동해 보겠습니다. (옵션은 아래에서 설명하겠습니다.)
 
-```
+```git
 $ git reset --hard {commit_id}
 ```
 

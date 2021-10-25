@@ -1,4 +1,4 @@
-# ✏️ Git Commit 이해하기
+# Git Commit 이해하기
 
 ## Staging Area
 
