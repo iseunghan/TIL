@@ -14,3 +14,4 @@
 * [4. JWT를 이해하기 전 RSA란?](jwt/4.-jwt-rsa.md)
 * [5. JWT의 구조 및 이해](jwt/5.-jwt.md)
 * [6. JWT를 사용하기 위한 프로젝트 세팅](jwt/6.-jwt.md)
+* [7. JWT를 이해하기 전 Basic, Bearer 방식에 대해서](jwt/7.-jwt-basic-bearer.md)
