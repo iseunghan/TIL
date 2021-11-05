@@ -16,3 +16,4 @@
 * [6. JWT를 사용하기 위한 프로젝트 세팅](jwt/6.-jwt.md)
 * [7. JWT를 이해하기 전 Basic, Bearer 방식에 대해서](jwt/7.-jwt-basic-bearer.md)
 * [8. JWT를 사용하기 전 Filter 등록 테스트](jwt/8.-jwt-filter.md)
+* [9. JWT 임시 토큰으로 Filter 테스트](jwt/9.-jwt-filter.md)
