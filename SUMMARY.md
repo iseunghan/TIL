@@ -19,3 +19,4 @@
 * [9. JWT 임시 토큰으로 Filter 테스트](jwt/9.-jwt-filter.md)
 * [10. JWT 로그인을 위한 UserDetails, UserDetailsService 구현](jwt/10.-jwt-userdetails-userdetailsservice.md)
 * [11. JWT 로그인을 위한 UsernamePasswordAuthenticationFilter 상속](jwt/11.-jwt-usernamepasswordauthenticationfilter.md)
+* [12. JWT 토큰 Authorization을 위한 커스텀 필터 생성](jwt/12.-jwt-authorization.md)
