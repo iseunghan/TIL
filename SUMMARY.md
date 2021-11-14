@@ -6,6 +6,7 @@
   * [Git Commit 이해하기](git\_tutorial/git-commit.md)
   * [Git HEAD, reset 3가지 옵션](git\_tutorial/git-head-reset-3.md)
   * [Git Branch란?](git\_tutorial/git-branch.md)
+  * [Git Merge 이해하기](git\_tutorial/git-merge.md)
 
 ## JWT
 
