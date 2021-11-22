@@ -11,6 +11,7 @@
 * [Algorithm](algorithm/README.md)
   * [퀵 정렬 (Quick Sort)](algorithm/quick-sort.md)
   * [선택 정렬 (Selection So](algorithm/selection-so.md)
+  * [삽입 정렬 (Insertion Sort)](algorithm/insertion-sort.md)
 
 ## JWT
 
