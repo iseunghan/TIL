@@ -10,8 +10,9 @@
   * [GitLab Merge 정책 3가지](git\_tutorial/gitlab-merge-3.md)
 * [Algorithm](algorithm/README.md)
   * [퀵 정렬 (Quick Sort)](algorithm/quick-sort.md)
-  * [선택 정렬 (Selection So](algorithm/selection-so.md)
+  * [선택 정렬 (Selection Sort)](algorithm/selection-sort.md)
   * [삽입 정렬 (Insertion Sort)](algorithm/insertion-sort.md)
+  * [버블 정렬 (Bubble Sort)](algorithm/bubble-sort.md)
 
 ## JWT
 
