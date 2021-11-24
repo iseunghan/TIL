@@ -13,6 +13,7 @@
   * [선택 정렬 (Selection Sort)](algorithm/selection-sort.md)
   * [삽입 정렬 (Insertion Sort)](algorithm/insertion-sort.md)
   * [버블 정렬 (Bubble Sort)](algorithm/bubble-sort.md)
+  * [병합 정렬 (Merge Sort)](algorithm/merge-sort.md)
 
 ## JWT
 
