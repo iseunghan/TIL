@@ -5,6 +5,9 @@
 * [OOP : 객체 지향 프로그래밍](java.md#oop)
 * [캡슐화, 상속, 다형성](java.md#java)
 * [접근제어자](java.md#undefined)
+* [자바 프로그램 실행과정](java.md#undefined-2)
+* [Intepreter vs JIT Compiler](java.md#interpreter-vs-jit-compiler)
+* [Runime Data Areas (메모리 구조)](java.md#runtime-data-areas)
 
 &#x20;
 
@@ -66,3 +69,65 @@ OOP로 코드를 작성하면 이미 작성한 코드에 대한 `재사용성`�
 * protected : 동일 패키지 또는 상속 관계
 * default : 동일 패키지 내
 * private : 해당 클래스만
+
+## 자바 프로그램 실행과정 <a href="#undefined" id="undefined"></a>
+
+
+
+![](https://media.vlpt.us/images/iseunghan/post/adf77297-bc3b-4b10-a087-0f482a7cf845/13576C2A-B132-4A99-B122-646F64A07BE5.png)
+
+1\. 프로그램이 실행되면, JVM은 OS로부터 이 프로그램이 필요로 하는 `메모리를 할당`\
+2\. `자바 컴파일러(javac)`가 `소스코드(.java)`를 읽어들여 `바이트코드(.class)`로 변환\
+3\. `Class Loader`를 통해 `class` 파일들을 JVM에 로딩\
+4\. 로딩된 `class` 파일들을 `Execution engine`을 통해 해석 (Interpreter vs JIT Compiler)\
+5\. 해석된 바이트 코드는 `Runtime Data Areas`에 배치되어 실직적인 수행이 이뤄진다.\
+6\. 이러한 실행과정 속에서 JVM은 필요에 따라 Thread Syncronization과 GC같은 관리 작업을 수행한다.
+
+
+
+## Interpreter vs JIT Compiler <a href="#interpreter-vs-jit-compiler" id="interpreter-vs-jit-compiler"></a>
+
+`바이트코드(.class)`를 해석하는 방식은 두가지가 있다.
+
+* 바이트코드를 한 라인씩 읽고 해석하는 `Interpreter`(속도가 느림) 방식과, 단점을 보완해 등장하는 것이 `JIT(Just In Time) Compiler` 방식이 있다.
+* `JIT Compiler`는 이미 해석된 바이트코드 부분은 **저장**해두었다가 반복되는 부분이 실행될 때, 해당 부분은 해석과정에서 빼버리는 것이다. 그렇기 때문에 반복수행되지 않는다면 `Intepreter`방식이 효율적이다. (속도, 비용 측면)
+* 하지만 JIT는 바이트코드를 `JIT Compiler`를 통해 어셈블러 같은 `Native Code`로 변경되어 수행되는데 어셈블러로 변환하면 속도가 빨라지지만 비용이 발생하게 된다.
+* 그래서 JVM은 모든 코드를 `JIT Compiler` 방식으로 실행하지 않고, `Interpreter` 방식을 사용하다가 일정한 기준이 넘어가면 `JIT Compiler` 방식으로 실행한다.
+
+## Runtime Data Areas (메모리 구조) <a href="#runtime-data-areas" id="runtime-data-areas"></a>
+
+![](https://media.vlpt.us/images/iseunghan/post/b88b6610-ccf4-405f-87d9-8e23efee90bf/BFBE1F4C-8CC7-4583-A440-B62E8412B181.png)
+
+**Method Area (= Class Area = Static Area) - 모든 Thread가 공유**
+
+> 클래스 정보를 처음 메모리 공간에 올릴 때 초기화 되는 대상을 위한 메모리 공간\
+> 클래스, 변수, Method, static 변수, 상수 정보 등이 저장되는 영역이다.
+
+* Filed information: 멤버 변수의 이름, 데이터 타입, 접근 제어자에 대한 정보
+* Method information: 메소드의 이름, 리턴 타입, 매개변수, 접근 제어자에 대한 정보
+* Type information: Type의 속성이 Class인지 interface인지의 여부 저장
+* static 변수: 모든 객체가 공유할 수 있고, 객체 생성 없이 접근 가능
+* 상수 풀: 문자 상수, 타입, 필드, 객체 이름으로 참조하는 것도 저장
+
+**Heap Area**
+
+> 객체를 저장하는 가상 메모리 공간 (모든 Thread 공유)
+
+* `new 연산자`로 생성된 객체와 배열을 저장한다. (`Class Area`영역에 올라온 클래스들만 객체로 생성 가능)
+* Heap 영역은 `Young Generation`, `Old Generation`, `Permanent Generation` 으로 구성됨.
+
+**Stack Area**
+
+> 메소드 내에서 사용되는 값들(`매개변수, 지역변수, 리턴값 등`)이 저장되는 구역으로 메소드 호출 시마다 각각의 메소드마다 `스택프레임(각 메소드를 위한 공간)`이 생성된다
+
+* `LIFO(Last In First Out)`을 준수하며, 메소드를 빠져나가면 해당 스택프레임은 `LIFO`를 지키며 소멸이 된다.
+
+**PC Register**
+
+> Thread가 생성 될 때마다 생성되는 공간
+
+* 현재 Thread가 실행되는 부분의 주소와 명령과 저장
+
+**Native Method Stack**
+
+> 자바의 언어로 작성된 네이티브 코드를 위한 메모리 영역
