@@ -163,3 +163,46 @@ final을 붙이게 되면 변경이 불가능!
 
 * 오버라이딩 : `같은 메소드 시그니처`를 갖는 메소드를 **덮어 씌우는 것(재정의)** 을 의미합니다.
 * 오버로딩 : `다른 메소드 시그니처`를 갖는 메소드를 **선언(생성)** 하는 것을 의미합니다.
+
+## Primitive Class , Wrapper Class <a href="#primitive-class--wrapper-class" id="primitive-class--wrapper-class"></a>
+
+기본 자료형인 **Primitive Class**는 `byte, int, long, float, double, boolean, char` 등이 있습니다.
+
+**Wrapper Class**는 기본 자료형을 `객체화` 한 것을 의미합니다.
+
+> ex) byte, int, long, double, boolean -> Byte, Integer, Long, Double, Boolean ..
+
+**Wrapper Class를 사용하는 이유는?**
+
+* 컬렉션에는 `제네릭`만 사용가능하기 때문에 Wrapper Class를 사용해야합니다.
+* 또, 기본 자료형은 `null`이 허용되지 않기 때문에 `null`을 사용하기 위해서는 Wrapper Class를 사용해야합니다.
+* Wrapper Class는 `==` 비교가 안된다. 주소값이 찍히기 때문!
+
+***
+
+## AutoBoxing / AutoUnBoxing <a href="#autoboxing--autounboxing" id="autoboxing--autounboxing"></a>
+
+**묵시적 박싱 / 언박싱**
+
+* AutoBoxing
+
+```java
+List<Integer> list = new ArrayList<>();
+list.add(1);	// list.add(new Integer(1));
+```
+
+* AutoUnBoxing
+
+```java
+int a = list.get(0);	// (int) list.get(0);
+```
+
+박싱 / 언박싱에는 **명시적, 묵시적** 박싱 / 언박싱이 있다.\
+위 경우가 **묵시적** 박싱 / 언박싱에 해당된다.
+
+**명시적 박싱 / 언박싱**
+
+```java
+Integer a = new Integer(1);
+int b = (int) a;	// (타입) 명시
+```
