@@ -12,6 +12,10 @@
 * [제네릭](java.md#generic)
 * [final](java.md#final)
 * [오버라이딩 vs 오버로딩](java.md#vs)
+* [Primitive Class, Wrapper Class](java.md#primitive-class--wrapper-class)
+* [AutoBoxing / AutoUnboxing](java.md#autoboxing--autounboxing)
+* [Checked vs Unchecked Exception](java.md#checked-vs-unchecked-exception)
+* [예외처리 방법](java.md#undefined-3)
 
 
 
@@ -206,3 +210,41 @@ int a = list.get(0);	// (int) list.get(0);
 Integer a = new Integer(1);
 int b = (int) a;	// (타입) 명시
 ```
+
+
+
+## Checked vs UnChecked Exception(예외) <a href="#checked-vs-unchecked-exception" id="checked-vs-unchecked-exception"></a>
+
+자바에서 예외는 `RuntimeException`으로 두가지로 구분할 수 있다.
+
+* `Checked Exception` : RuntimeException을 **제외한** 모든 클래스
+* `UnChecked Exception` : RuntimeException과 모든 자식 클래스
+
+**Checked Exception**
+
+* 확인 시점 : `컴파일 단계`
+* 반드시 예외 처리!
+* 예) `IOException`, `SQLException` ..
+
+**Unchecked Exception**
+
+* 확인 시점 : `실행 단계`
+* 예외를 강제하지 않음
+* 예) `NullPointerException`, `IllegalStateException` ..
+
+***
+
+## 예외처리 방법 <a href="#undefined" id="undefined"></a>
+
+> 1. 예외 복구
+
+`try-catch` 구문으로 예외를 감싸서 처리해주는 방식이다.
+
+> 1. 예외처리 회피 (`throws`)
+
+발생한 예외를 호출한 쪽으로 던져버리는 것이다.
+
+> 1. 예외 전환
+
+만일 `SQLException`이 발생했다고 치면, 도대체 무슨 예외가 생겼는지 알수가 없다.\
+이럴 때, 예를들어 `DuplicatedException`이라는 적당한 예외클래스를 생성해서 해당 예외 클래스에게 넘겨주면 훨씬 수월한 예외 처리가 가능할 것입니다.
