@@ -98,7 +98,7 @@ $ git log --all --graph
 
 ![](https://blog.kakaocdn.net/dn/btqwrT/btq97ms9UPx/OfEkwdi0f2Hc5JkQJqPfQk/img.png)
 
-**develop** 브랜치가** Func-A**가 있는 곳으로 쭉 당겨져서 이동을 하였습니다. (**Fast-Forward Merge**)
+**develop** 브랜치가 **Func-A**가 있는 곳으로 쭉 당겨져서 이동을 하였습니다. (**Fast-Forward Merge**)
 
 \
 
@@ -137,7 +137,7 @@ public class Test1 {
 }
 ```
 
-브랜치를 이동하면 워킹디렉토리도 _**해당 커밋에 따라 상태가 변경 **_된다고 했었습니다!
+브랜치를 이동하면 워킹디렉토리도 _**해당 커밋에 따라 상태가 변경**_ 된다고 했었습니다!
 
 \
 
@@ -213,7 +213,7 @@ public class Test1 {
 \
 
 
-자 이제** Commit**을 해볼까요?
+자 이제 **Commit**을 해볼까요?
 
 ```
 $ git add .

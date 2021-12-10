@@ -42,7 +42,7 @@
 
 ![](https://blog.kakaocdn.net/dn/1feA5/btq93nTnVHB/pt8sim0f7YA7SsdFcla06k/img.png)
 
-현재 **HEAD**가  **master **브랜치를 가리키고 있습니다.
+현재 **HEAD**가  **master** 브랜치를 가리키고 있습니다.
 
 이제 **master** 브랜치에서 **develop** 브랜치를 생성해주겠습니다.
 
@@ -180,7 +180,7 @@ $ git commit -m "Add ClassB in Func-B"
 
 * **--all** : 모든 브랜치들의 커밋내역을 볼 수 있습니다.
 * **--graph** : 브랜치들의 커밋 관계를 그래프 형식으로 볼 수 있습니다.
-* 이외의** --oneline** 옵션도 있습니다.
+* 이외의 **--oneline** 옵션도 있습니다.
 
 ![](https://blog.kakaocdn.net/dn/bJc36F/btq91UDNnWd/dadP9ZspgSt9AAQ99hUw5k/img.png)
 

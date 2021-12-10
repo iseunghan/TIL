@@ -86,7 +86,7 @@ Merge Sort가 O(n logn)을 보장할 수 있었던 이유는 정렬 할 배열�
 > _**마찬가지로 호출 할 필요가 없다!**_\
 >
 
-여기서 알 수 있는 조건_** mergeSort **_호출 시_** m == n**_일 경우 호출 할 필요없다._** ( m < n ) **_인 경우만 호출하면 된다.
+여기서 알 수 있는 조건 _**mergeSort**_ 호출 시 _**m == n**_일 경우 호출 할 필요없다. _**( m < n )**_ 인 경우만 호출하면 된다.
 
 \
 
@@ -144,7 +144,7 @@ public void mergeSort(int[] arr, int m, int n) {
 \
 
 
-* _**2. merge(arr, 0, 2) **_
+* _**2. merge(arr, 0, 2)**_&#x20;
 
 이제 지금이 중요하다. 앞에 정렬된 두개의 인덱스와 arr\[2] 를 비교해서 sorted에 넣어야 하는데
 
@@ -152,13 +152,13 @@ public void mergeSort(int[] arr, int m, int n) {
 
 ![](https://blog.kakaocdn.net/dn/lrvVW/btqNCdD4fKI/CORQqoqgKhUaDAkaletQOk/img.png)
 
-비교후 값을 넣어주고, 해줘야 할 것이 k값 증가, 넣은 인덱스 값 증가 시키기. 위에 그림은_** k++, j++**_ 를 해주면 된다.
+비교후 값을 넣어주고, 해줘야 할 것이 k값 증가, 넣은 인덱스 값 증가 시키기. 위에 그림은 _**k++, j++**_ 를 해주면 된다.
 
 그치만, 조심해야 할것이 j++ 를 해주면 인덱스가 벗어나게 된다.
 
 ![](https://blog.kakaocdn.net/dn/p2wXK/btqNuPR3s1Y/rQYLKkglqLC29Kl9LAprp0/img.png)
 
-그래서 우리가 설정 해줘야 할 조건은 _**(**_ _**i <= middle && j <= n ) **_이다.
+그래서 우리가 설정 해줘야 할 조건은 _**(**_ _**i <= middle && j <= n )**_ 이다.
 
 \
 
