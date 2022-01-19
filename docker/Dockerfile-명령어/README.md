@@ -111,3 +111,90 @@ docker run test2
 ```dockerfile
 docker run test2 echo bye world!
 ```
+
+## Expose 명령어
+```dockerfile
+EXPOSE <port>
+EXPOSE <port>/<protocol>
+```
+
+`EXPOSE` 명령어는 호스트가 컨테이너로 접속하기 위한 포트를 지정해줄 수 있습니다. 포트만 적으면 기본적으로 TCP가 적용이 됩니다.
+
+> 주의할 점! `EXPOSE` 명령어는 호스트와 연결만 할 뿐 외부로 노출되지 않습니다. 외부나 호스트는 지정된 포트로 접근이 불가능합니다. 외부로 노출시키기 위해선 `docker run -p 8080:8080` 처럼 포트포워딩을 해줘야만 접근이 가능합니다. 
+
+* 8080/TCP 연결
+```dockerfile
+EXPOSE 8080
+```
+
+* 8082/UDP 연결
+```dockerfile
+EXPOSE 8082/UDP
+```
+
+## COPY / ADD 명령어
+```dockerfile
+COPY <복사할 파일>... <복사한 파일을 이미지에 복사할 곳>
+COPY ["<파일>", ... "<복사할 곳>"]
+```
+
+`COPY` 명령어는 호스트 컴퓨터에 있는 디렉토리나 파일을 Docker 이미지의 파일시스템으로 복사하기 위해서 사용됩니다.  절대경로와 상대경로 둘다 사용할 수 있습니다. 상대경로를 사용할 때에는 현재 `WORKDIR`가 어디인지 체크를 해야합니다.
+
+* `hello.java` 파일을 복사
+```dockerfile
+COPY hello.java hello.java
+```
+
+* 이미지를 빌드한 디렉토리의 모든 파일을 컨테이너의 `app/` 디렉토리로 복사
+```dockerfile
+WORKDIR app/
+COPY . .
+```
+
+`ADD` 명령문은 `COPY`명령어와 다르게 일반 파일 뿐만 아니라 압축 파일이나 네트워크 상의 파일도 사용할 수 있습니다. 이렇게 특수한 파일을 다루는게 아니라면 `COPY`를 사용하는게 좋습니다.
+
+## ENV / ARG 명령어
+### ENV
+```dockerfile
+ENV <KEY> <VALUE>
+ENV <KEY>=<VALUE>
+```
+
+`ENV` 명령어는 환경 변수를 설정할 수 있습니다. `ENV` 명령어는 `ARG` 명령어와 다르게 컨테이너 내부에서도 접근이 가능합니다.
+
+* `SERVER_PORT`를 기본값 8080으로 설정
+```dockerfile
+ENV SERVER_PORT 8080
+```
+
+* 환경변수 `SERVER_PORT`를 9090으로 설정
+```sh
+$ docker run -e SERVER_PORT=9090 ....
+```
+
+### ARG
+```dockerfile
+ARG <KEY>
+ARG <KEY>=<default>
+```
+
+`ARG` 명령어는 `ENV` 명렁어와 다르게 이미지 빌드시에만 사용할 수 있습니다. 
+
+* 빌드 시 `ARG` 설정
+```dockerfile
+$ docker build --build-arg SERVER_PORT=1234 ...
+```
+
+`CMD`와 함께 사용은 아래와 같이 할 수 있습니다.
+```dockerfile
+ARG SERVER_PORT=8080
+
+CMD java -jar -Dserver.port=${SERVER_PORT} hello.jar
+```
+
+# REFERENCE
+[시작하세요! 도커/쿠버네티스 - YES24](http://www.yes24.com/Product/Goods/84927385)
+[Dockerfile에서 자주 쓰이는 명령어 | Engineering Blog by Dale Seo](https://www.daleseo.com/dockerfile/)
+[도커 (Docker) - 환경변수(ENV) 전달하기 : 네이버 블로그](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=complusblog&logNo=220975099502)
+[docker 헷갈리는 Dockerfile 명령어 · Issue #90 · heowc/programming-study · GitHub](https://github.com/heowc/programming-study/issues/90)
+[Docker Dockerfile 환경변수 설정(ENV)](https://kimjingo.tistory.com/78)
