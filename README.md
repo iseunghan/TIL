@@ -1,9 +1,12 @@
 # README
 
-## 공부한 내용들을 정리합니다 😊
+## 공부한 내용들을 정리하고 있습니다 😊
 
-* [Git](git\_tutorial/)
-* [JWT](jwt/)
-* [Algorithm](algorithm/)
-* [JAVA](java.md)
-* [Spring](spring.md)
+* [Java]("/tree/master/java.md")
+* [Spring]("tree/master/spring.md")
+* [JWT]("/tree/master/jwt")
+* [Docker]("/tree/master/docker")
+* [Kafka]("/tree/master/kafka")
+* [Algorithm]("/tree/master/algorithm")
+* [Etc]("/tree/master/etc")
+
