@@ -59,7 +59,7 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       KAFKA_CREATE_TOPICS: "test:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
@@ -87,8 +87,42 @@ $ docker-compose -f docker-compose-single-broker.yml up
 ![](https://images.velog.io/images/iseunghan/post/cbbc2a2b-5b37-43ab-82d3-362f08784bdc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202022-01-24%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2011.36.22.png)
 
 ## Kafka Producer, Consumer 연결 테스트
-...
+
+### GET KAFKA
+먼저 kafka [공식 사이트](https://www.apache.org/dyn/closer.cgi?path=/kafka/3.1.0/kafka_2.13-3.1.0.tgz)에서 kafka를 다운받습니다.
+
+### 압축 풀기
+```bash
+$ tar -xzf kafka_2.13-3.1.0.tgz
+$ cd kafka_2.13-3.1.0
+```
+
+### Topic 생성
+```bash
+$ bin/kafka-topics.sh --create --topic hello-world --bootstrap-server localhost:9092
+```
+
+### Producer
+```bash
+$ bin/kafka-console-producer.sh --topic hello-world --bootstrap-server localhost:9092
+```
+
+### Consumer
+```bash
+$ bin/kafka-console-consumer.sh --topic hello-world --from-beginning --bootstrap-server localhost:9092
+```
+
+### 메세지 전송 테스트
+* `producer`에서 메세지 전송
+![](https://images.velog.io/images/iseunghan/post/e3f09dac-84b0-4de2-891f-a175eab69e34/image.png)
+
+* `consumer`에서 메세지 수신
+
+![](https://images.velog.io/images/iseunghan/post/3b8e2f51-e322-40ea-bad3-17176c9cf6ff/image.png)
+
 
 
 # REFERENCES
-[docker-compose로 kafka를 로컬에 띄워보자! | KWANGSIK LEE's log](http://www.kwangsiklee.com/2017/03/docker-compose%EB%A1%9C-kafka%EB%A5%BC-%EB%A1%9C%EC%BB%AC%EC%97%90-%EB%9D%84%EC%9B%8C%EB%B3%B4%EC%9E%90/)
+[Docker Compose와 버전별 특징](https://meetup.toast.com/posts/277)
+
+[Kafka quickstart](https://kafka.apache.org/quickstart)
