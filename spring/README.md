@@ -2,12 +2,12 @@
 
 ## 목차
 
-* [Spring Framework?](spring.md#undefined-1)
-* [Spring Boot?](spring.md#undefined-2)
-* [Spring 빈과 IoC 컨테이너에 대해서](./Spring-빈-IoC컨테이너)
+* [Spring Framework?](/#스프링-프레임워크란-무엇인가요)
+* [Spring Boot?](/#스프링-부트란)
+* [Spring 빈과 IoC 컨테이너에 대해서](/스프링-빈-IoC컨테이너)
 
 
-## 스프링 프레임워크란 무엇인가요? <a href="#undefined" id="undefined"></a>
+## 스프링 프레임워크란 무엇인가요?
 
 * 자바 엔터프라이즈 개발을 편하게 해주는 경량급 오픈소스 애플리케이션 프레임워크입니다.
 * 스프링 프레임워크가 하부구조를 알아서 처리해주기 때문에 개발자는 Application 개발에만 집중할 수 있습니다.
@@ -16,7 +16,7 @@
 
 ***
 
-## 스프링 부트란 무엇인가요? <a href="#undefined" id="undefined"></a>
+## 스프링 부트란 무엇인가요?
 
 * 스프링 부트는 스프링에서 제공하는 많은 라이브러리들을 자동으로 설정해줍니다.
 * 내장 톰캣 서버로 인해 간단한 배포 서버 구축 가능합니다.
