@@ -4,6 +4,7 @@
 
 * [Java](/java)
 * [Spring](/spring)
+* [Web](/web)
 * [JWT](/jwt)
 * [Docker](/docker)
 * [Kafka](/kafka)
