@@ -1,11 +1,17 @@
 # Spring
 
+스프링을 공부한 내용을 정리합니다 :)
+
 ## 목차
 
-* [Spring Framework?](#스프링-프레임워크란-무엇인가요)
-* [Spring Boot?](#스프링-부트란-무엇인가요)
-* [Spring 빈과 IoC 컨테이너에 대해서](./스프링-빈-IoC컨테이너)
-
+| 목차 | 링크 |
+| :-: | :-: |
+| Spring Framework란? | [🔗](#스프링-프레임워크란-무엇인가요) |
+| Spring Boot란? | [🔗](#스프링-부트란-무엇인가요) |
+| Spring 빈과 IoC 컨테이너에 대해서 | [🔗](./스프링-빈-IoC컨테이너) |
+| Spring MVC에 대해서 | [🔗](./spring-mvc란) |
+| `application.yml` 값 받아오기 | [🔗](./application.yml에서-값-받아오기) |
+| Spring 프로젝트 jar 파일 생성 | [🔗](./jar-파일-생성) |
 
 ## 스프링 프레임워크란 무엇인가요?
 
