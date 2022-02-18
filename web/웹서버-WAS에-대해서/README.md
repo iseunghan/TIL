@@ -1,16 +1,36 @@
-# WEB server vs WAS(Web Application Server) 차이점
+### WEB server vs WAS(Web Application Server) 차이점
 
-### `Web server`
-* 정적 컨텐츠(HTML, image ,,)을 처리한다.
-* ex) `apache`, `nginx`
+![](https://images.velog.io/images/iseunghan/post/b1dc8870-f1dd-4cc7-80ee-3856b02c3903/image.png)
 
-### `WAS (Web Application Server)`
-* WAS =  `Web server + Web Container`
+#### 웹 서버
+
+* **WAS**를 거치지 않고 정적 컨텐츠(`html, css, js, img..`)들을 사용자에게 빠르게 제공해줍니다. (동적 컨텐츠는 WAS에게 요청 후 사용자에게 제공)
+* reverse proxy 기능을 이용해서 서버에 대한 정보(`어떤 WAS로 요청이 전달되는지, 정적 리소스들의 위치, 서비스되고 있는 포트 번호 등`)들을 사용자에게 감춰서 보안을 강화할 수 있습니다.
+* 여러 개의 WAS를 사용할 때, 로드 밸런싱을 이용해서 분산 처리를 해줍니다.
+
+ex) `Apache, NginX, IIS ..`
+
+#### WAS
+
+* 웹 서버가 처리할 수 없는 동적 컨텐츠(`DB 조회, 비즈니스 로직처리`)를 만들어서 웹 서버에게 제공해줍니다. 
+* `WAS = Web Server + Web Container`
 	
-    * `Web Container`는 `JSP`, `Servlet`을 실행시킬 수 있는 소프트웨어입니다.
-* 동적 컨텐츠를 처리 및 웹 응용프로그램 서비스 처리
-* 즉, `web server`가 처리할 수 있는 형태로 가공하여 제공할 수 있는 웹 어플리케이션
-* ex) `Tomcat` ,,
+    * `Web Container`는 `Servlet, JSP`를 실행시킬 수 있는 소프트웨어
 
-> 둘을 따로 분리하는 이유는? 
-> -> 할일을 분리시켜 서버 부하 방지
+ex) `Tomcat, Jeus ..`
+
+### 웹 서버와 WAS를 따로 두는 이유는?
+
+* `웹 서버`는 정적 컨텐츠만 처리할 수 있기 때문에 동적 컨텐츠를 처리해야할 때는 `WAS`가 필요합니다.
+    
+    * 정적 컨텐츠들은 굳이 `WAS`가 처리하는 것 보단, 앞단에서 `웹 서버`가 빠르게 제공하도록 하여 `WAS`의 부담을 줄일 수 있습니다.
+
+* SSL 암/복호화 처리를 `웹 서버`가 처리
+
+* 여러 대의 `WAS`를 사용할 때
+    
+    * `웹 서버`가 앞단에서 로드 밸런싱 기능을 제공하여 분산 처리
+    * `Web Application`의  비즈니스 로직 업데이트를 위해, WAS  순차적으로 업데이트를 진행하여 사용자들에게 끊김 없는 기능 제공(**무중단 배포**)을 할 수 있습니다.
+
+#### 정리
+`WAS`는 **DB조회**, **비즈니스 로직 처리**를 하고, `Web Server`는 **정적컨텐츠**를 빠르게 클라이언트에게 제공
