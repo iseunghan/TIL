@@ -36,6 +36,7 @@ bcrypt.genSalt(saltRounds, function(err, salt) {
 ```
 
 * 결과
+
 ![](https://images.velog.io/images/iseunghan/post/68145c36-6d02-4a3c-a1fc-237cbd11c19a/image.png)
 
 <br>
@@ -53,6 +54,7 @@ bcrypt.compare(password, hash, function(err, result) {
 
 * 결과
    * 올바른 패스워드와 다른 패스워드를 넣었을 때
+
 ![](https://images.velog.io/images/iseunghan/post/a1255e12-417b-4d33-b8cb-d226c247631c/image.png)
 
 ---
@@ -137,6 +139,11 @@ bcrypt.compareSync(password, hash);
 ```
 
 # REFERENCES
+
 [eun_dev님 블로그](https://programmer-eun.tistory.com/125)
+
 [bcrypt github](https://github.com/kelektiv/node.bcrypt.js#sync)
+
 [ki_blank님 블로그 - 화살표 함수](https://velog.io/@ki_blank/JavaScript-%ED%99%94%EC%82%B4%ED%91%9C-%ED%95%A8%EC%88%98Arrow-function)
+
+감사합니다.
