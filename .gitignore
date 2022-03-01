@@ -1,0 +1,3 @@
+# ignore all .pdf files in the doc/ directory
+./**/*.DS_Store
+
