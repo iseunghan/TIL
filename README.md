@@ -4,13 +4,14 @@
 
 | 목차 | 링크 |
 | :-: | :-: |
-| Spring | [🔗](/spring) |
-| JAVA | [🔗](/java) |
-| Web | [🔗](/web) |
-| Git | [🔗](/git) |
-| JWT | [🔗](/jwt) |
-| Docker | [🔗](/docker) |
-| Kafka | [🔗](/kafka) |
-| Algorithm | [🔗](/algorithm) |
-| etc | [🔗](/etc) |
+| Spring | [🔗](/Spring) |
+| JAVA | [🔗](/JAVA) |
+| JS | [🔗](/JS) |
+| WEB | [🔗](/WEB) |
+| Git | [🔗](/Git) |
+| JWT | [🔗](/JWT) |
+| Docker | [🔗](/Docker) |
+| Kafka | [🔗](/Kafka) |
+| Algorithm | [🔗](/Algorithm) |
+| etc | [🔗](/Etc) |
 
