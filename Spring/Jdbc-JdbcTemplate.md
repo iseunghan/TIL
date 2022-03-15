@@ -62,7 +62,7 @@ JDBC를 사용하면 DB 연결부터 마지막에 연결해제까지 일일히 �
 
 ```java
 @Repository
-public class AccountJdbcRepository implements AccountRepository{
+public class JdbcAccountRepository implements AccountRepository{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -182,21 +182,21 @@ spring:
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountJdbcRepository ;
+    private AccountRepository jdbcAccountRepository ;
 
     @GetMapping("/account")
     public List<Account> findAll() {
-        return accountJdbcRepository.findAll();
+        return jdbcAccountRepository.findAll();
     }
 
     @GetMapping("/account/{id}")
     public Account findById(@PathVariable Long id) {
-        return accountJdbcRepository.findById(id);
+        return jdbcAccountRepository.findById(id);
     }
 
     @PostMapping("/account")
     public Long save(@RequestBody Account account) {
-        return accountJdbcRepository.save(account);
+        return jdbcAccountRepository.save(account);
     }
 }
 ```
@@ -217,30 +217,131 @@ public class AccountController {
 ![](https://images.velog.io/images/iseunghan/post/1fe9ea9c-d65b-4f2b-97de-ea8f9562cc5d/image.png)
 
 
-## 데이터를 저장하는 2가지 방법 (JdbcTemplate vs SimpleInsert)
+## 연관관계 매핑일 때, 데이터를 저장하는 2가지 방법 (JdbcTemplate vs SimpleInsert)
 * `JdbcTemplate.update`
-* `SimpleInsert`
+* 편리한 `SimpleInsert`
 
 ### JdbcTemplate 사용
 * Account와 Article은 서로 연관관계가 있다고 가정한다.
+    * 하나의 Account는 여러 개의 Article을 가진다.
+
+연관관계가 있는 두 테이블을 저장하기 위해 `PreparedStatementCreator`, `KeyHolder`를 사용한다.
+
+```java
+public class Account {
+	...
+    List<Article> articles;
+    ...
+}
+
+public class Article {
+	Long id;
+    String title;
+    Date createdAt;
+    ...
+}
+```
 
 ```java
 @Repository
-public class JdbcArticleRepository implements ArticleRepository {
+public class JdbcAccountRepository implements AccountRepository {
 	
     @Autowired
     private JdbcTemplate jdbc;
     
-    @Override
-    public Article save(Article article) {
-    	Long id = saveArticleInfo(article);
+    public Long save(Account account) {
+        Long accountId = saveAccountInfo(account);
+        account.setId(accountId);
+
+        for (Article article : account.getArticles()) {
+            saveArticleToAccount(article, accountId); 
+        }
+        return account.getId();
     }
-    
-    private Long saveArticleInfo(Article article) {
-    	article.setCreatedAt(new Date());
-        PreparedStatementCreator psc = 
-        	new PreparedStatementCreatorFactory(
-            )
+
+    public Long saveAccountInfo(Account account) {
+        PreparedStatementCreator psc = new PreparedStatementCreatorFactory(
+                "insert into Account (name, age) values (?, ?)",
+                Types.VARCHAR, Types.INTEGER
+        ).newPreparedStatementCreator(
+                Arrays.asList(
+                        account.getUsername(),
+                        account.getAge()
+                )
+        );
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(psc, keyHolder);
+
+        return keyHolder.getKeyAs(Long.class);
+    }
+
+    private void saveArticleToAccount(Article article, Long accountId) {
+        jdbcTemplate.update(
+            "insert into Account_Article (account, article) values (?, ?)",
+                accountId, article.getId());
     }
 }
 ```
+* 코드가 복잡하다.
+* 생성된 `Account ID`값을 얻기 위해서는 `KeyHolder`가 필요한데, 이 `KeyHolder`를 사용하기 위해서는 꼭 `PreparedStatementCreator` 객체가 필요하다.
+
+
+### SimpleJdbcInsert 사용
+`JdbcTemplate` 래퍼 클래스이다.
+
+**SimpleAccountRepository.java**
+```java
+@Repository
+public class SimpleAccountRepository implements AccountRepository{
+
+    private final ObjectMapper objectMapper;
+    private final SimpleJdbcInsert accountInserter;
+    private final SimpleJdbcInsert accountArticleInserter;
+
+    public SimpleAccountRepository(JdbcTemplate jdbcTemplate, ObjectMapper objectMapper) {
+        this.accountInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("Account")
+                .usingGeneratedKeyColumns("id");
+
+        this.accountArticleInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("Account_Articles");
+
+        this.objectMapper = objectMapper;
+    }
+    
+    @Override
+    public Long save(Account account) {
+        Long accountId = saveAccountInfo(account);
+        account.setId(accountId);
+
+        for (Article article : account.getArticles()) {
+            saveArticleToAccount(article, accountId);
+        }
+        return null;
+    }
+
+    private void saveArticleToAccount(Article article, Long accountId) {
+        // key 값은 테이블의 열 이름과 동일
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("article", article.getId());
+        values.put("account", accountId);
+
+        accountArticleInserter.execute(values);
+    }
+
+    private Long saveAccountInfo(Account account) {
+        Map<String, Object> values = objectMapper.convertValue(account, Map.class);
+
+        return (Long) accountInserter.executeAndReturnKey(values);
+    }
+    
+    ...
+}
+```
+
+* `SimpleJdbcInsert`는 더욱 편리한 기능을 제공한다.
+* 이전에는 key를 돌려받기 위해 `KeyHolder` + `PrepareStatementCreator`를 사용했다면, 이제는 `SimpleJdbcInsert`클래스의 `executeAndReturnkey`를 이용해 키를 돌려받을 수 있다.
+
+---
+
