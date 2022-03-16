@@ -345,3 +345,65 @@ public class SimpleAccountRepository implements AccountRepository{
 
 ---
 
+# Spring Data JPA 사용
+`Spring Jdbc`보다 훨씬 편리한 기능들 제공
+
+
+* `dependency` 추가
+
+```
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-jpa</artifactId>
+</dependency>
+```
+
+* 간단한 CRUD 구현
+* `Repository`는 `interface`를 상속한다.
+
+[JpaRepository](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html) 인터페이스를 상속받는다.
+```java
+@Repository
+public interface JpaAccountRepository extends JpaRepository<Account, Long> {
+}
+```
+
+이제 `Account`를 `Jpa Entity`로 등록하기 위해서 다음 3가지가 필요하다.
+* Jpa Entity인 것을 알려주기 위해 클래스 레벨에 `@Entity` 어노테이션을 붙여준다.
+* 기본 생성자 (매개변수가 없는 생성자)
+* id 필드에 `@Id` 어노테이션을 붙여준다.
+
+```java
+@Data
+@RequiredArgsConstructor
+@Builder
+@Entity
+public class Account {
+    @Id
+    private Long id;
+    private String username;
+    private int age;
+    @OneToMany(mappedBy = "account")
+    private List<Article> articles;
+}
+```
+
+`Account`와 일대다 매핑이 되어있는 `Article`도 `Entity`로 등록해준다.
+* Account(1) 입장에서는 Article(N)은 `다(N)`이기 때문에, `@ManyToOne`을 붙여준다.
+* `@ManyToOne`에는 항상 JoinColumn으로 `1(일)`에 해당하는 Entity를 지정해줘야한다.
+* `@JoinColumn` (생략가능) : `EntityName + _ + ID`, 생략하면 JPA가 알아서 구문 분석을해서 매핑해준다.
+```java
+@Data
+@Builder
+@NoArgsConstructor
+@Entity
+public class Article {
+    @Id
+    private Long id;
+    private String title;
+    private Date date;
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_ID")	// 생략가능
+    private Account account;
+}
+```
