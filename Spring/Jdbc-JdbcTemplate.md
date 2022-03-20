@@ -346,8 +346,7 @@ public class SimpleAccountRepository implements AccountRepository{
 ---
 
 # Spring Data JPA 사용
-`Spring Jdbc`보다 훨씬 편리한 기능들 제공
-
+`Spring Jdbc`보다 훨~씬 편리한 기능들 제공
 
 * `dependency` 추가
 
@@ -372,6 +371,13 @@ public interface JpaAccountRepository extends JpaRepository<Account, Long> {
 * Jpa Entity인 것을 알려주기 위해 클래스 레벨에 `@Entity` 어노테이션을 붙여준다.
 * 기본 생성자 (매개변수가 없는 생성자)
 * id 필드에 `@Id` 어노테이션을 붙여준다.
+* `@GeneratedValue(strategy=GenerationType.****)`를 같이 사용한다.
+    * 기본키 생성에는 4가지 전략이 있다.
+    * `IDENTITY` : 기본키를 null로 넣으면, DB가 알아서 생성해서 넣어준다. (ex: Mysql, PostgreSQL,,)
+    * `SEQUENCE` : 데이터베이스 시퀀스는 유일한 값을 순서대로 생성한다. (ex. Oracle, PostgreSQL, H2..)
+    * `TABLE` : 키 생성 전용 테이블을 하나 만들어서 데이터베이스 시퀀스를 흉내내는 전략
+    * `AUTO` : 데이터베이스 방언(dialect)마다 위 세가지 전략을 자동으로 지정한다.
+    
 
 ```java
 @Data
@@ -379,7 +385,7 @@ public interface JpaAccountRepository extends JpaRepository<Account, Long> {
 @Builder
 @Entity
 public class Account {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private int age;
@@ -398,7 +404,7 @@ public class Account {
 @NoArgsConstructor
 @Entity
 public class Article {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private Date date;
@@ -407,3 +413,118 @@ public class Article {
     private Account account;
 }
 ```
+
+### AccountService 생성
+```java
+@Service
+public class Account1Service {
+
+    @Autowired
+    private JpaAccountRepository accountRepository;
+
+    public Account save(Account account) {
+        return accountRepository.save(account);
+    }
+
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
+    public Account findById(Long id) {
+        return accountRepository.findById(id)
+                .orElseThrow(IllegalStateException::new);
+    }
+
+    public Account update(Long id, Account account) {
+        Account oldAccount = this.findById(id);
+
+        if(account.getUsername() != null) {
+            oldAccount.setUsername(account.getUsername());
+        }
+        if (account.getAge() != 0) {
+            oldAccount.setAge(account.getAge());
+        }
+        return accountRepository.save(oldAccount);
+    }
+
+    public void delete(Long id) {
+        accountRepository.deleteById(id);
+    }
+}
+```
+
+## CRUD 테스트
+```java
+
+```
+
+#### TEST 코드
+```java
+@SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class Account1ServiceTest {
+
+    @Autowired
+    private Account1Service accountService;
+
+    @Test
+    @Order(1)
+    void account_저장() {
+        for (int i = 1; i <= 3; i++) {
+            Account account = Account.builder()
+                    .username("name" + i)
+                    .age(20 + i)
+                    .build();
+
+            Account save = accountService.save(account);
+
+            assertEquals(save.getUsername(), account.getUsername());
+            assertEquals(save.getAge(), account.getAge());
+        }
+    }
+
+    @Test
+    @Order(2)
+    void 전체_account_조회() {
+        List<Account> accounts = accountService.findAll();
+
+        assertEquals(accounts.size(), 3);
+    }
+
+    @Test
+    @Order(3)
+    void 하나의_account_조회() {
+        Account account = accountService.findById(1L);
+
+        assertEquals(account.getId(), 1L);
+        assertEquals(account.getUsername(), "name1");
+        assertEquals(account.getAge(), 21);
+    }
+
+    @Test
+    @Order(4)
+    void account_업데이트() {
+        Account account = Account.builder()
+                .username("user100")
+                .age(100)
+                .build();
+
+        Account update = accountService.update(2L, account);
+
+        assertEquals(update.getUsername(), account.getUsername());
+        assertEquals(update.getAge(), account.getAge());
+    }
+
+    @Test
+    @Order(5)
+    void account_삭제() {
+        accountService.delete(3L);
+
+        assertThrows(IllegalStateException.class, () -> accountService.findById(3L));
+    }
+}
+```
+
+#### 테스트 결과
+![](https://images.velog.io/images/iseunghan/post/a62416ea-4c3c-4fb9-ab40-26afc85c10a3/image.png)
+
