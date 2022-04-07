@@ -12,6 +12,8 @@
 | Spring MVC에 대해서 | [🔗](./spring-mvc란) |
 | `application.yml` 값 받아오기 | [🔗](./application.yml에서-값-받아오기) |
 | Spring 프로젝트 jar 파일 생성 | [🔗](./jar-파일-생성) |
+| Jdbc-JdbcTemplate-JPA | [🔗](./Jdbc-JdbcTemplate.md) |
+| Spring H2 인메모리 DB 설정 | [🔗](./h2-setting.md) |
 
 ## 스프링 프레임워크란 무엇인가요?
 
