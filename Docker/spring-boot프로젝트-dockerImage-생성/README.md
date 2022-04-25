@@ -30,7 +30,7 @@ test:
 
 # jar 파일 생성하기
 > docker image를 생성하기 위해서는 먼저 jar 파일이 필요합니다.
-해당 [🔗링크](https://github.com/iseunghan/TIL/tree/master/spring/jar-파일-생성)를 참조하시길 바랍니다.
+해당 [🔗링크](https://github.com/iseunghan/TIL/tree/master/Spring/jar-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1)를 참조하시길 바랍니다.
 
 
 # Dockerfile 생성
