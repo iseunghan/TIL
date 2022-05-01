@@ -60,7 +60,6 @@ class BookServiceTest {
 
         // when & then
         assertThrows(BookNotFoundException.class, () -> bookService.findBook(200L));
-
         verify(bookRepository, times(1)).findById(anyLong());   // 해당 메소드 호출이 1번 완료했는가?
     }
 
@@ -82,10 +81,8 @@ class BookServiceTest {
         // given
         when(bookRepository.findById(anyLong())).thenReturn(spring_Book);   // already exist
 
-        // when
+        // when & then
         assertThrows(BookDuplicateException.class, () -> bookService.saveBook(spring_Book));
-
-        // then
         verify(bookRepository).findById(anyLong());
         verify(bookRepository, times(0)).save(any(Book.class)); // exception으로 인해 호출 못함!
     }
