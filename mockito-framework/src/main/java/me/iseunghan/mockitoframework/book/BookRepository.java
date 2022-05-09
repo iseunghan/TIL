@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public class BookRepository {
-    private final static Long sequence = 1L;
+    private static Long sequence = 1L;
     @Getter
     private final static List<Book> bookList = new ArrayList<>();
 
@@ -21,7 +21,14 @@ public class BookRepository {
         return null;
     }
 
+    public List<Book> findAll() {
+        return bookList;
+    }
+
     public Long save(Book book) {
+        if (book.getId() == null) {
+            book.setId(sequence++);
+        }
         bookList.add(book);
         return book.getId();
     }
