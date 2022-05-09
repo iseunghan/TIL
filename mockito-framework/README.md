@@ -1,7 +1,7 @@
 # Mockito로 테스트를 작성해보자
 
 > 프로젝트 환경: Spring-boot, Junit5, Mockito
->
+> 모든 코드는 [Github](https://github.com/iseunghan/TIL/tree/mockito-framework/mockito-framework)에 있습니다 :)
 
 ## Mockito
 
@@ -183,6 +183,153 @@ when(bookRepository.findById(anyLong())).thenReturn(null);
 assertThrows(NotFoundException.class, () -> bookService.findById(1L));
 
 ```
+
+## Controller 테스트 하기
+#### 테스트를 위한 BookController
+```java
+@RestController
+public class BookController {
+
+    @Autowired
+    private BookService bookService;
+
+    @GetMapping("/books/{book_id}")
+    public Book findBook(@PathVariable Long book_id) {
+        return bookService.findBook(book_id);
+    }
+
+    @GetMapping("/books")
+    public List<Book> findAll() {
+        return bookService.findBooks();
+    }
+
+    @PostMapping("/books")
+    public Long addBook(@RequestBody Book book) {
+        return bookService.saveBook(book);
+    }
+
+    @ExceptionHandler(BookDuplicateException.class)
+    public ResponseEntity _400() {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity _404() {
+        return ResponseEntity.notFound().build();
+    }
+}
+
+```
+
+#### BookControllerTest
+```java
+// 모든 빈들을 컨텍스트에 올리지 않고, MVC테스트를 위한 Spring MVC components (i.e. @Controller, @ControllerAdvice, @JsonComponent 등)만 올라간다.
+@WebMvcTest(controllers = BookController.class) // 해당 컨트롤러만 context에 올려준다.
+//@ExtendWith(MockitoExtension.class)
+class BookControllerTest {
+
+    // WebMvcTest에는 @AutoConfigureMockMvc가 붙어있다.
+    @Autowired
+    private MockMvc mockMvc;
+
+    // bookService를 mockBean으로 등록시킨다.
+    @MockBean
+    private BookService bookService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private List<Book> bookList;
+
+    @BeforeEach
+    void setup() {
+    	// .. 생략
+    }
+
+    @Test
+    void book_저장_200() throws Exception {
+        // given
+        Book book = Book.builder()
+                .id(100L)
+                .title("title100")
+                .price(1000).build();
+
+        // stubbing
+        given(bookService.saveBook(any(Book.class))).willReturn(anyLong());
+
+        // when & then
+        mockMvc.perform(post("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book)))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 중복된_book_저장_400() throws Exception{
+        // given
+        Book book = bookList.get(0);
+
+        given(bookService.saveBook(any(Book.class))).willThrow(BookDuplicateException.class);
+
+        // when & then
+        mockMvc.perform(post("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 모든_book_조회_200() throws Exception {
+        // given
+        given(bookService.findBooks()).willReturn(bookList);
+
+        // when & then
+        mockMvc.perform(get("/books")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("[0].id").exists())
+                .andExpect(jsonPath("[1].id").exists())
+                .andExpect(jsonPath("[2].id").exists());
+    }
+
+    @Test
+    void 하나의_book_조회_200() throws Exception {
+        // given
+        Book book = bookList.get(0);
+
+        given(bookService.findBook(anyLong())).willReturn(book);
+
+        // when & then
+        mockMvc.perform(get("/books/{id}", anyLong())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("title").exists());
+    }
+
+    @Test
+    void 없는_book_조회_404() throws Exception {
+        // given
+        Book book = bookList.get(0);
+
+        given(bookService.findBook(anyLong())).willThrow(BookNotFoundException.class);
+
+        // when & then
+        mockMvc.perform(get("/books/{id}", anyLong())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+}
+```
+
+* `@WebMvcTest`를 붙여주게 되면, MVC 테스트를 하기 위한 최소의 빈들을 컨텍스트에 등록해줍니다. (`@SpringBootTest`보다 가볍습니다.)
+    * 여기에 controllers 옵션을 주게되면, 해당 컨트롤러만 테스트를 할 수 있습니다.
+* 이제 사용하기 위한 객체들을 빈으로 등록시킬 때는 `@MockBean`을 사용하여 등록해주면 됩니다.
 
 ---
 
