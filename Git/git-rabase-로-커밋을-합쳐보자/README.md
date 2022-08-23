@@ -1,16 +1,17 @@
-## 다른 브랜치에서 커밋을 가져오는 방법은 크게 2가지로 나뉜다.
+## 다른 브랜치에서 커밋을 가져오는 방법은 크게 2가지가 있습니다.
 
 - git merge
 - git rebase
 
-### 둘의 차이점은?
-> Merge와 rebase의 큰 차이점은 하나로 합치냐 모두 가져오냐 입니다.
+## 둘의 차이점은?
+> Merge와 rebase의 큰 차이점은 하나로 합치냐 모두 가져오냐 입니다.  
 
-![Untitled](./git1.png)
+![](./git1.png)
+merge로 커밋을 합치면 모든 커밋들이 다 보이는 반면, rebase로 합친 커밋로그는 깔끔하게 하나만 남기도록 할 수 있습니다.
 
-### git rebase를 이용해서 커밋을 합쳐보자
+## git rebase를 이용해서 커밋을 합쳐보자
 
-1. 커밋 리스트 확인
+### 1. 커밋 리스트 확인
 
 ```bash
 $ git log
@@ -35,7 +36,7 @@ Date:   Thu Aug 4 07:38:20 2022 +0000
 
 3개의 커밋이 있다고 가정합니다.
 
-1. git rebase로 합치기
+### 2. git rebase로 합치기
 
 ```bash
 $ git rebase -i @~3
@@ -70,8 +71,10 @@ pick a1d131c Third Commit  # pick -> s
 #
 # However, if you remove everything, the rebase will be aborted.
 ```
+`-i`는 interactive 대화형 모드입니다.  `@~3`(또는 `HEAD~3` 이렇게 사용해도 됨) 최근 3개의 커밋을 rebase하겠다는 뜻입니다.
+최종적으로 남기고 싶은 커밋은 `pick`으로, 합치고 싶은 커밋은 squash의 약자인 `s`로 변경해줍니다.
 
-1. 최종 변경된 모습
+### 3. 최종 변경된 모습
 
 ```bash
 $ git rebase -i @~3
@@ -107,9 +110,9 @@ s a1d131c Third Commit  # pick -> s
 # However, if you remove everything, the rebase will be aborted.
 ```
 
-`:wq` 로 빠져나온다.
+이후 `:wq` 로 빠져나옵니다.
 
-1. 커밋 정리
+### 4. 커밋 정리
 
 ```bash
 # This is a combination of 4 commits.
@@ -121,7 +124,7 @@ First commit
 Second commit
 # This is the commit message #3:
 
-Third commit
+Third commit    # 이 부분은 남기고 싶은 커밋이므로 남겨둡니다.
 
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
@@ -139,8 +142,9 @@ Third commit
 #       new file:   .gitlab-ci.yml
 #
 ```
+`Third commit` 부분만 남겨두고 나머지 부분은 삭제해줍니다.
 
-1. 최종적인 모습
+### 5. 최종적인 모습
 
 ```bash
 Third commit
@@ -162,7 +166,7 @@ Third commit
 #
 ```
 
-1. 커밋 확인
+### 6. 커밋 확인
 
 ```bash
 $ git log
@@ -173,7 +177,9 @@ Date:   Thu Aug 4 07:38:20 2022 +0000
     Third commit
 
 ```
+이렇게 깔끔하게 커밋을 합쳐보았습니다. 한가지 주의할 점은 이미 저장소에 푸시한 상태일때는 가급적 rebase를 사용하지 않는것이 좋습니다. 왜냐하면 다른 사람이 봤을 때는 동일한 커밋인데 내용은 rebase로 합쳐졌기 때문에 혼란이 올 수 있기 때문입니다. 그렇기에 로컬에서 작업을 하고 저장소에 푸시하기 전에 커밋을 깔끔하게 다듬는 역할로 사용하면 좋을 것 같습니다. 감사합니다.
 
+좀 더 자세한 내용은 아래 FlyingSquirrel님의 medium에서 확인하실 수 있습니다.
 
 ## REFERENCES
 
